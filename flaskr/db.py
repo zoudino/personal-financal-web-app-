@@ -6,7 +6,6 @@ import sqlite3
 import click
 from flask import current_app, g
 from flask.cli import with_appcontext
-
 # 首先，我们应该如何来理解g ?
 # g is a special object that is unique for each request. It is used to store data that might be accessed by multiple functions during the request.
 # 就是这个g 可以储存的数据，这个数据会被多个function access
@@ -17,6 +16,8 @@ from flask.cli import with_appcontext
 # sqlite3.connect() establishes a connection to the file pointed at by the DATABASE configuration key. 在这个地方我们define一个和database之间的关系
 # sqlite3.Row tells the connection to return rows that behave like dicts. 就是我们获得的数据的row
 # close_db checks if a connection was created by checking if g.db was set. 这个会被叫each time after the request.
+
+"""  SQLite will not be used to compete with the client server database such as mongoDB, sqlalchemy which will involves with a lot of users. Rather SQLite is very useful for persional applicaiton and sotre the local data"""
 
 def get_db():
     if 'db' not in g:

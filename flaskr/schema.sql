@@ -15,3 +15,19 @@ CREATE TABLE post (
   body TEXT NOT NULL,
   FOREIGN KEY (author_id) REFERENCES user (id)
 );
+
+CREATE TABLE expense {
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  category VARCHAR NOT NULL,
+  expense FLOAT(2) NOT NULL,
+  date  DATE() NOT NULL,
+  comment TEXT NOT NULL
+}
+
+CREATE TABLE income {
+   id INTEGER PRIMARY KEY AUTOINCREMENT,
+   category VARCHAR NOT NULL,
+   income FLOAT(2) NOT NULL,
+   date  DATE() NOT NULL,
+   comment TEXT NOT NULL
+}
