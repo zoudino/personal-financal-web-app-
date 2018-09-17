@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<!--  这个是一个foundation html. Each page in the application will have the same basic layout around a different body.
+也就是说每一个页面都会一个不同body和分布情况. Instead of writting the entire html struture in each template,为了避免重复的相同的html code。
+Each template will extend a base template and override specific sections 之后每一个页面都会在这个foundation上面进行改变和改进.
+
+对于software development很重要的部分就是 我们如何从整个development's lifecycle to understand how to develop things. 看事情要看的长远, 这样东西才会长久.
+ -->
+
+
+<title>{% block title %}{% endblock %} - Flaskr</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<nav>
+  <h1>Flaskr</h1>
+  <ul>
+    {% if g.user %}
+      <li><span>{{ g.user['username'] }}</span>
+      <li><a href="{{ url_for('auth.logout') }}">Log Out</a>
+    {% else %}
+      <li><a href="{{ url_for('auth.register') }}">Register</a>
+      <li><a href="{{ url_for('auth.login') }}">Log In</a>
+    {% endif %}
+  </ul>
+</nav>
+<section class="content">
+  <header>
+    {% block header %}{% endblock %}
+  </header>
+  {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+  {% block content %}{% endblock %}
+</section>
+
+<!--
+    g is automatically available in templates
+ <% block title %> 就是tab的title
+ <% block header %> 这个就是html，帮助我们change the view of the page
+ <% block content %> 这个就是每个页面的内容是什么.
+-->
+
+

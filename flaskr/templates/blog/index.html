@@ -1,0 +1,38 @@
+
+
+
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Posts{% endblock %}</h1>
+  {% if g.user %}
+    <a class="action" href="{{ url_for('blog.create') }}">New</a>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  {% for post in posts %}
+    <article class="post">
+      <header>
+        <div>
+          <h1>{{ post['title'] }}</h1>
+          <div class="about">by {{ post['username'] }} on {{ post['created'].strftime('%Y-%m-%d') }}</div>
+        </div>
+        {% if g.user['id'] == post['author_id'] %}
+          <a class="action" href="{{ url_for('blog.update', id=post['id']) }}">Edit</a>
+        {% endif %}
+      </header>
+      <p class="body">{{ post['body'] }}</p>
+    </article>
+    {% if not loop.last %}
+      <hr>
+    {% endif %}
+  {% endfor %}
+{% endblock %}
+
+
+<!-- When a user is logged in, the header block adds a link to the create view. 就是用户登录进来了，我们的code就会把用户指引到一个Create view 里面去. When the user is the
+author of a post, they'll see an "Edit" link to the update view for that post. 当user是作者 of the post, 他就可以开始编辑那个post. Loop.last is a special variable inside Jinja for loops.
+It's used to display ta line after each post except the last one, to visually separate them
+
+-->
