@@ -4,23 +4,15 @@
 # blueprint and view 都是为了和user进行interaction， 而且blueprint 就是为了能够帮助我们更好的管理很多很多的pages
 # 整个py file 都是在Discuss 如何创立一个让用户注册和登录的一个页面出来. 这样user的信息就会被secure。 从而帮助自己理解更多关于web development的东西.
 import functools
-
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
 from werkzeug.security import check_password_hash, generate_password_hash
-
 from flaskr.db import get_db
-
 bp = Blueprint('auth', __name__, url_prefix='/auth')
-
-
 #在这个里面我们创造了一个blueprint named 'auth'. 为了让application知道where the module and defined. The url_prefix will be prepended to all the URLs associated with the blueprint --url就是我们的blueprint
 #在我们define了我们的blueprint之后， 我们要马上把这个blueprint import and register the blueprint from the factory using app.register_blueprint().
-
-
 #下面的东西，我们要打起十分的精神进行学习，那就是成功的建立一个login
-
 #require authentication in other views
 # Creating, editing, and deleting blog posts will require a user to be logged in. 想要创建， 编辑，和删除blog posts 需要user能够logged in the system
 # 这个地方设计的非常的巧妙. 也就是如果user没有log in 我们把用户direct到初始页面里面去. 如果用户log in了，我们就让用户持续的待在原本的页面里面.
@@ -32,8 +24,6 @@ def login_required(view):
 
         return view(**kwargs)
     return wrapped_view
-
-
 @bp.before_app_request #在这个地方，我们注册了一个function before the view funciton, no matter what URL is requested.load_logged_in_user回去检查是否用户的id储存在了session里面，然后从数据库里面拿出数据出来，把数据储存在request一直存在的长度里面.
 def load_logged_in_user():
     user_id = session.get('user_id')
@@ -44,7 +34,6 @@ def load_logged_in_user():
         g.user = get_db().execute(
             'SELECT * FROM user WHERE id=?', (user_id,)
         ).fetchone()
-
 @bp.route('/register', methods=('GET','POST'))
 def register():
     if request.method == 'POST':
@@ -124,7 +113,7 @@ def login():
         if error is None:
             session.clear()
             session['user_id'] = user['id']
-            return redirect(url_for('auth.login'))
+            return redirect(url_for('index'))
 
         flash(error)
 
